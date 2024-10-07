@@ -1,0 +1,6 @@
+@Logiwa.WebAPI_HostAddress = http://localhost:5198
+
+GET {{Logiwa.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

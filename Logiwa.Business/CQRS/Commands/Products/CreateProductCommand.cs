@@ -61,7 +61,14 @@ namespace Logiwa.Business.CQRS.Commands.Products
                 //throw new AlreadyExistsException($"{nameof(Product)} with {nameof(command.StockCode)} is equal to {command.StockCode} already exists.");
             }
 
-            var product = new Product(command.StockCode, command.Description, command.CategoryId);
+            var category = _genericWriteRepository.GetAll<Category>().FirstOrDefault(x => x.Id == command.CategoryId);
+
+            if (category == null)
+            {
+                throw new ArgumentNullException($"{nameof(category)} not found with given Id : {command.CategoryId}");
+            }
+
+            var product = new Product(command.StockCode, command.Description, category.Id);
 
             await _genericWriteRepository.AddAsync(product, cancellationToken);
 

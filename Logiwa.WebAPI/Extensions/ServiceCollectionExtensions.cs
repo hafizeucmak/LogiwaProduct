@@ -32,6 +32,9 @@ namespace Logiwa.WebAPI.Extensions
                 });
             });
         }
-
+        public static void AddExceptionManager(this IServiceCollection services)
+        {
+            services.AddSingleton<IExceptionManager, ExceptionManager>();
+        }
     }
 }

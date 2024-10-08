@@ -9,7 +9,13 @@ namespace Logiwa.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Product> product)
         {
+            product.HasKey(p => p.Id);
+
             product.HasIndex(x => x.StockCode).IsUnique();
+
+            product.HasIndex(x => x.Id).IsUnique();
+
+            product.HasIndex(x => x.Description);
 
             product.HasIndex(x => new { x.StockCode, x.DeletedAt })
                    .IsUnique()
@@ -23,11 +29,10 @@ namespace Logiwa.Infrastructure.EntityConfigurations
                    .IsRequired()
                    .HasMaxLength(DbContextConstants.MAX_LENGTH_FOR_PRODUCT_DESCRIPTIONS);
 
-            product.HasOne(x => x.Category)
-                   .WithMany()
-                   .HasForeignKey(x => x.CategoryId)
-                   .IsRequired()
-                   .OnDelete(DeleteBehavior.Restrict);
+            product.HasOne(p => p.Category)
+                   .WithMany(c => c.Products)
+                   .HasForeignKey(p => p.CategoryId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

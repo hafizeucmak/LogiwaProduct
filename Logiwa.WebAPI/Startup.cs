@@ -1,6 +1,9 @@
-﻿using Logiwa.Common.Configurations;
+﻿using Logiwa.Business.CQRS.Commands.Products;
+using Logiwa.Common.Configurations;
 using Logiwa.Infrastructure.DbContexts;
 using Logiwa.WebAPI.Extensions;
+using Logiwa.WebAPI.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
@@ -29,6 +32,8 @@ namespace Logiwa.WebAPI
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
+            services.AddExceptionManager();
+            services.AddRepositories();
 
             services.AddSwaggerGen(c =>
             {
@@ -41,7 +46,12 @@ namespace Logiwa.WebAPI
                 services.AddDbContext<BaseDbContext>(configurationOptions);
             }
 
-            services.AddMediatR(m => m.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddMediatR(m => m.RegisterServicesFromAssembly(typeof(CreateProductCommandHandler).Assembly));
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(TransactionManagerFilter<BaseDbContext>));
+            });
         }
 
         private void ConfigureSwaggerUI(SwaggerUIOptions options)

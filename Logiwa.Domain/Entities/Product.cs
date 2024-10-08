@@ -13,6 +13,7 @@ namespace Logiwa.Domain.Entities
         {
             StockCode = stockCode;
             Description = description;
+            CategoryId = categoryId;
 
             _validator.ValidateAndThrow(this);
         }
@@ -35,6 +36,7 @@ namespace Logiwa.Domain.Entities
                 RuleFor(c => c.Description).NotEmpty()
                                            .MaximumLength(DbContextConstants.MAX_LENGTH_FOR_PRODUCT_DESCRIPTIONS)
                                            .MinimumLength(DbContextConstants.MIN_LENGTH_FOR_PRODUCT_DESCRIPTIONS);
+                RuleFor(c => c.CategoryId).NotEmpty().NotNull().GreaterThan(0);
             }
         }
     }

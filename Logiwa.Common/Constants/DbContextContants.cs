@@ -17,5 +17,7 @@
         public const int MAX_LENGTH_FOR_CATEGORY_DESCRIPTIONS = 500;
 
         public const string CLUSTERED_TEXT = "SqlServer:Clustered";
+
+        public static int DEFAULT_MAX_LENGTH_FOR_STRING = 100;
     }
 }

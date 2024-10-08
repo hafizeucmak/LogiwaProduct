@@ -22,8 +22,6 @@ namespace Logiwa.Domain.Entities
 
         public int MinimumStockQuantity { get; private set; }
 
-        public bool IsActive { get; private set; }
-
         public IReadOnlyCollection<Product> Products => _products;
 
         public class CategoryValidator : AbstractValidator<Category>

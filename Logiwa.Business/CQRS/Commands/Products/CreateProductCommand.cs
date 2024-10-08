@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Logiwa.Common.Constants;
+using Logiwa.Common.Exceptions;
 using Logiwa.Domain.Entities;
 using Logiwa.Infrastructure.DbContexts;
 using Logiwa.Infrastructure.Repositories;
@@ -12,11 +13,12 @@ namespace Logiwa.Business.CQRS.Commands.Products
     public class CreateProductCommand : IRequest<Unit>
     {
         private readonly CreateProductCommandValidator _validator = new();
-        public CreateProductCommand(string stockCode, string description, int categoryId)
+        public CreateProductCommand(string stockCode, string description, int categoryId, int stockQuantity)
         {
             StockCode = stockCode;
             Description = description;
             CategoryId = categoryId;
+            StockQuantity = stockQuantity;
 
             _validator.ValidateAndThrow(this);
         }
@@ -26,6 +28,8 @@ namespace Logiwa.Business.CQRS.Commands.Products
         public string Description { get; set; }
 
         public int CategoryId { get; set; }
+
+        public int StockQuantity { get; set; }
     }
 
     public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
@@ -34,7 +38,8 @@ namespace Logiwa.Business.CQRS.Commands.Products
         {
             RuleFor(x => x.StockCode).NotEmpty().MaximumLength(DbContextConstants.MAX_LENGTH_FOR_STOCK_CODE);
             RuleFor(x => x.Description).NotEmpty().MaximumLength(DbContextConstants.MAX_LENGTH_FOR_PRODUCT_DESCRIPTIONS);
-            RuleFor(x => x.CategoryId).NotEmpty().NotNull().GreaterThan(0);
+            RuleFor(x => x.CategoryId).NotEmpty().NotNull().GreaterThan(0).WithMessage($"CategoryId can not be empty.");
+            RuleFor(x => x.StockQuantity).NotEmpty().NotNull().WithMessage($"Stock quantity can not be empty.");
         }
     }
 
@@ -44,7 +49,7 @@ namespace Logiwa.Business.CQRS.Commands.Products
         private readonly ILogger<CreateProductCommandHandler> _logger;
 
         public CreateProductCommandHandler(IGenericWriteRepository<BaseDbContext> genericWriteRepository,
-                                        ILogger<CreateProductCommandHandler> logger)
+                                           ILogger<CreateProductCommandHandler> logger)
         {
             _genericWriteRepository = genericWriteRepository;
             _logger = logger;
@@ -58,17 +63,17 @@ namespace Logiwa.Business.CQRS.Commands.Products
 
             if (isProductAlreadyExists)
             {
-                //throw new AlreadyExistsException($"{nameof(Product)} with {nameof(command.StockCode)} is equal to {command.StockCode} already exists.");
+                throw new AlreadyExistsException($"{nameof(Product)} with {nameof(command.StockCode)} is equal to {command.StockCode} already exists.");
             }
 
             var category = _genericWriteRepository.GetAll<Category>().FirstOrDefault(x => x.Id == command.CategoryId);
 
             if (category == null)
             {
-                throw new ArgumentNullException($"{nameof(category)} not found with given Id : {command.CategoryId}");
+                throw new ResourceNotFoundException($"{nameof(category)} not found with given Id : {command.CategoryId}");
             }
 
-            var product = new Product(command.StockCode, command.Description, category.Id);
+            var product = new Product(command.StockCode, command.Description, command.StockQuantity, category);
 
             await _genericWriteRepository.AddAsync(product, cancellationToken);
 

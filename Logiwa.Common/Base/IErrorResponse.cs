@@ -9,7 +9,5 @@
         string? InnerException { get; set; }
 
         string? ExceptionContent { get; set; }
-
-        int StatusCode { get; set; }
     }
 }

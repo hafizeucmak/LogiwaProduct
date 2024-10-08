@@ -5,6 +5,12 @@ namespace Logiwa.Common.Utils
 {
     public class ExceptionManager : IExceptionManager
     {
+        private readonly IDictionary<Type, int> _exceptionCodePair;
+
+        public ExceptionManager(IDictionary<Type, int> exceptionCodePair)
+        {
+            _exceptionCodePair = exceptionCodePair;
+        }
         public IErrorResponse ConstructExceptionModel(Exception thrownException)
         {
             int code = GetHttpStatusCode(thrownException) ?? (int)HttpStatusCode.InternalServerError;
@@ -28,10 +34,10 @@ namespace Logiwa.Common.Utils
         private int? GetHttpStatusCode<TException>(TException exception)
           where TException : Exception
         {
-            //if (_exceptionCodePair.TryGetValue(exception.GetType(), out var code))
-            //{
-            //    return code;
-            //}
+            if (_exceptionCodePair.TryGetValue(exception.GetType(), out var code))
+            {
+                return code;
+            }
 
             return null;
         }

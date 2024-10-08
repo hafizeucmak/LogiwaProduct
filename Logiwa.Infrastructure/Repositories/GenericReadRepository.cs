@@ -1,24 +1,22 @@
 ﻿using Logiwa.Domain.Entities;
-using Logiwa.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Logiwa.Infrastructure.Repositories
 {
-    public class GenericReadRepository : IGenericReadRepository
+
+    public class GenericReadRepository<TContext> : IGenericReadRepository<TContext> where TContext : DbContext
     {
-        protected readonly BaseDbContext _baseDb;
+        protected readonly TContext _context;
 
-        public Guid ContextScopeId { get; }
-
-        public GenericReadRepository(BaseDbContext baseDb)
+        public GenericReadRepository(TContext context)
         {
-            _baseDb = baseDb;
+            _context = context;
         }
-
+       
         public virtual IQueryable<TEntity> GetAll<TEntity>()
             where TEntity : DomainEntity
         {
-            IQueryable<TEntity> dataSet = _baseDb.Set<TEntity>();
+            IQueryable<TEntity> dataSet = _context.Set<TEntity>();
 
             return dataSet.AsNoTracking();
         }

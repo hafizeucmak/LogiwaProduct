@@ -3,10 +3,8 @@ using Logiwa.Common.Configurations;
 using Logiwa.Infrastructure.DbContexts;
 using Logiwa.WebAPI.Extensions;
 using Logiwa.WebAPI.Filters;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Reflection;
 
 namespace Logiwa.WebAPI
 {

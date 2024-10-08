@@ -9,7 +9,5 @@
         public string? InnerException { get; set; }
 
         public string? ExceptionContent { get; set; }
-
-        public int StatusCode { get; set; }
     }
 }

@@ -34,6 +34,11 @@ namespace Logiwa.Common.Utils
         private int? GetHttpStatusCode<TException>(TException exception)
           where TException : Exception
         {
+            if (exception is FluentValidation.ValidationException validationException)
+            {
+                return 400;
+            }
+
             if (_exceptionCodePair.TryGetValue(exception.GetType(), out var code))
             {
                 return code;

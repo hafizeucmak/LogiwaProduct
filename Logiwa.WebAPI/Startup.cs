@@ -1,4 +1,6 @@
-﻿using Logiwa.Business.CQRS.Commands.Products;
+﻿using FluentValidation;
+using Logiwa.Business.CQRS.Commands.Products;
+using Logiwa.Business.CQRS.Queries.Products;
 using Logiwa.Common.Configurations;
 using Logiwa.Infrastructure.DbContexts;
 using Logiwa.WebAPI.Extensions;
@@ -32,7 +34,7 @@ namespace Logiwa.WebAPI
             services.AddEndpointsApiExplorer();
             services.AddExceptionManager();
             services.AddRepositories();
-
+            services.AddValidatorsFromAssemblyContaining<GetFilteredProductsValidator>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = _apiTitle, Version = "v1" });
@@ -51,6 +53,7 @@ namespace Logiwa.WebAPI
             });
 
             services.AddMapster();
+            services.AddValidators();
         }
 
         private void ConfigureSwaggerUI(SwaggerUIOptions options)

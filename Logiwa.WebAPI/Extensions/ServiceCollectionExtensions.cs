@@ -3,7 +3,9 @@ using Logiwa.Common.Configurations;
 using Logiwa.Common.Exceptions;
 using Logiwa.Common.Utils;
 using Logiwa.Infrastructure.Repositories;
+using Logiwa.WebAPI.Filters;
 using Mapster;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Reflection;
@@ -57,6 +59,12 @@ namespace Logiwa.WebAPI.Extensions
             var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
             Assembly applicationAssembly = typeof(CategoryOutputDTO).Assembly;
             typeAdapterConfig.Scan(applicationAssembly);
+        
+        }
+
+        public static void AddValidators(this IServiceCollection services)
+        {
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }
     }
 }

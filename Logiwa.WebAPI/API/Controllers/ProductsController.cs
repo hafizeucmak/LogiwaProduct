@@ -33,7 +33,6 @@ namespace Logiwa.WebAPI.API.Controllers
             return NoContent();
         }
 
-
         [HttpDelete("deleteProduct")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> DeleteProduct([FromBody] DeleteProductCommand command, CancellationToken cancellationToken)
@@ -54,6 +53,18 @@ namespace Logiwa.WebAPI.API.Controllers
         public async Task<IActionResult> GetProductByStockCode([FromQuery] string stockCode, CancellationToken cancellationToken)
         {
             return Ok(await _mediator.Send(new GetProductByStockCode(stockCode), cancellationToken));
+        }
+
+        [HttpGet("filterProducts")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IQueryable<ProductOutputDTO>))]
+        public async Task<IActionResult> FilterProducts([FromQuery] string? searchKey,
+                                                        [FromQuery] int? minStock,
+                                                        [FromQuery] int? maxStock, 
+                                                        CancellationToken cancellationToken,
+                                                        [FromQuery] int pageNumber = 1, 
+                                                        [FromQuery] int pageSize = 10)
+        {
+            return Ok(await _mediator.Send(new GetFilteredProducts(searchKey, minStock, maxStock, pageSize, pageNumber), cancellationToken));
         }
     }
 }

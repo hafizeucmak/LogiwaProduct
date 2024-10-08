@@ -66,7 +66,7 @@ namespace Logiwa.Business.CQRS.Commands.Products
                 throw new AlreadyExistsException($"{nameof(Product)} with {nameof(command.StockCode)} is equal to {command.StockCode} already exists.");
             }
 
-            var category = _genericWriteRepository.GetAll<Category>().FirstOrDefault(x => x.Id == command.CategoryId);
+            var category = await _genericWriteRepository.GetAll<Category>().FirstOrDefaultAsync(x => x.Id == command.CategoryId, cancellationToken);
 
             if (category == null)
             {

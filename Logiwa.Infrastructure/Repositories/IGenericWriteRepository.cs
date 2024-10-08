@@ -1,14 +1,11 @@
 ﻿using Logiwa.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 
 namespace Logiwa.Infrastructure.Repositories
 {
     public interface IGenericWriteRepository<TContext> where TContext : DbContext
     {
-        IQueryable<TEntity> GetAll<TEntity>(
-            [CallerFilePath] string callerPath = "",
-            [CallerMemberName] string callerMemberName = "")
+        IQueryable<TEntity> GetAll<TEntity>()
             where TEntity : DomainEntity;
 
         IQueryable<TEntity> GetAllAsNoTracking<TEntity>()

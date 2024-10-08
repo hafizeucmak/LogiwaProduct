@@ -23,6 +23,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{9A57A8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logiwa.Common", "Logiwa.Common\Logiwa.Common.csproj", "{47D75280-FACB-4D43-894B-703C95591F19}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{1E2D5990-6532-4FFB-A090-570FA9CF3D2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logiwa.UnitTests", "Logiwa.UnitTests\Logiwa.UnitTests.csproj", "{460DBC9F-6B84-4E52-917D-D737D414E467}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,10 @@ Global
 		{47D75280-FACB-4D43-894B-703C95591F19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47D75280-FACB-4D43-894B-703C95591F19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47D75280-FACB-4D43-894B-703C95591F19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{460DBC9F-6B84-4E52-917D-D737D414E467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{460DBC9F-6B84-4E52-917D-D737D414E467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{460DBC9F-6B84-4E52-917D-D737D414E467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{460DBC9F-6B84-4E52-917D-D737D414E467}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +67,7 @@ Global
 		{C3E886CA-050F-4CBA-A4E5-AD5E0DFD37E2} = {1A8D1879-E048-4E71-A8C0-C7DC686A6EBA}
 		{723A71F4-76F3-4361-BFE7-FAAEACA82899} = {5F889D7E-680F-4FC5-9856-97C642E81BCE}
 		{47D75280-FACB-4D43-894B-703C95591F19} = {9A57A883-9604-410D-9A98-6FEDBD56BB27}
+		{460DBC9F-6B84-4E52-917D-D737D414E467} = {1E2D5990-6532-4FFB-A090-570FA9CF3D2D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {30D83DAA-C280-4CA3-8F95-149556066F9D}

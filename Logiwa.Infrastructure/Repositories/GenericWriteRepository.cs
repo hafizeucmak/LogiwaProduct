@@ -1,6 +1,5 @@
 ﻿using Logiwa.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 
 namespace Logiwa.Infrastructure.Repositories
 {
@@ -13,9 +12,7 @@ namespace Logiwa.Infrastructure.Repositories
             _context = context;
         }
 
-        public virtual IQueryable<TEntity> GetAll<TEntity>(
-             [CallerFilePath] string callerPath = "",
-             [CallerMemberName] string callerMemberName = "")
+        public virtual IQueryable<TEntity> GetAll<TEntity>()
              where TEntity : DomainEntity
         {
             return _context.Set<TEntity>();

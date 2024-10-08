@@ -8,10 +8,11 @@ namespace Logiwa.Domain.Entities
         private readonly CategoryValidator _validator = new();
         private readonly HashSet<Product> _products = new();
 
-        public Category(string name, string description)
+        public Category(string name, string description, int minimumStockQuantity)
         {
             Name = name;
             Description = description;
+            MinimumStockQuantity = minimumStockQuantity;
 
             _validator.ValidateAndThrow(this);
         }
@@ -31,6 +32,7 @@ namespace Logiwa.Domain.Entities
                 RuleFor(c => c.Name).NotEmpty().MaximumLength(DbContextConstants.MAX_LENGTH_FOR_CATEGORY_NAME)
                                                .MinimumLength(DbContextConstants.MIN_LENGTH_FOR_CATEGORY_NAME);
                 RuleFor(c => c.Description).NotEmpty().MaximumLength(DbContextConstants.MAX_LENGTH_FOR_CATEGORY_DESCRIPTIONS);
+                RuleFor(c => c.MinimumStockQuantity).NotEmpty().GreaterThan(0);
             }
         }
     }

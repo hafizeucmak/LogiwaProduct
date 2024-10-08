@@ -38,7 +38,6 @@ namespace Logiwa.WebAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = _apiTitle, Version = "v1" });
             });
 
-
             if (configurationOptions != null)
             {
                 services.AddDbContext<BaseDbContext>(configurationOptions);
@@ -50,6 +49,8 @@ namespace Logiwa.WebAPI
             {
                 options.Filters.Add(typeof(TransactionManagerFilter<BaseDbContext>));
             });
+
+            services.AddMapster();
         }
 
         private void ConfigureSwaggerUI(SwaggerUIOptions options)

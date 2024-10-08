@@ -17,10 +17,7 @@ namespace Logiwa.Infrastructure.Repositories
         Task<TEntity> GetByIdAsync<TEntity>(int id, CancellationToken cancellationToken)
             where TEntity : DomainEntity;
 
-        Task<int> AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken, bool saveChanges = false)
-            where TEntity : DomainEntity;
-
-        Task<int> AddRangeAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveChanges = false)
+        Task<TEntity> AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken, bool saveChanges = false)
             where TEntity : DomainEntity;
 
         void Detach<TEntity>(TEntity entity)
@@ -30,12 +27,6 @@ namespace Logiwa.Infrastructure.Repositories
             where TEntity : DomainEntity;
 
         Task<int> RemoveAsync<TEntity>(TEntity entity, CancellationToken cancellationToken, bool saveChanges = false)
-            where TEntity : DomainEntity;
-
-        Task<int> RemoveRangeAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveChanges = false)
-            where TEntity : DomainEntity;
-
-        Task<int> UpdateRangeAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveChanges = false)
             where TEntity : DomainEntity;
 
         Task<int> UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken, bool saveChanges = false)

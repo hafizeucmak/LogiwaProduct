@@ -39,32 +39,17 @@ namespace Logiwa.Infrastructure.Repositories
             return GetAll<TEntity>().AsNoTracking();
         }
 
-        public virtual async Task<int> AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken, bool saveChanges = false)
+        public virtual async Task<TEntity> AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken, bool saveChanges = false)
                 where TEntity : DomainEntity
         {
-            int resultCount = 0;
             await _context.Set<TEntity>().AddAsync(entity, cancellationToken);
 
             if (saveChanges)
             {
-                resultCount = await _context.SaveChangesAsync(cancellationToken);
+               await _context.SaveChangesAsync(cancellationToken);
             }
 
-            return resultCount;
-        }
-
-        public virtual async Task<int> AddRangeAsync<TEntity>(
-            IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveChanges = false)
-                where TEntity : DomainEntity
-        {
-            int resultCount = 0;
-            await _context.Set<TEntity>().AddRangeAsync(entities, cancellationToken);
-            if (saveChanges)
-            {
-                resultCount = await _context.SaveChangesAsync(cancellationToken);
-            }
-
-            return resultCount;
+            return entity;
         }
 
         public virtual void Detach<TEntity>(TEntity entity)
@@ -87,41 +72,6 @@ namespace Logiwa.Infrastructure.Repositories
         {
             int resultCount = 0;
             _context.Entry(entity).State = EntityState.Deleted;
-            if (saveChanges)
-            {
-                resultCount = await _context.SaveChangesAsync(cancellationToken);
-            }
-
-            return resultCount;
-        }
-
-        public virtual async Task<int> RemoveRangeAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveChanges = false)
-            where TEntity : DomainEntity
-        {
-            int resultCount = 0;
-            _context.Set<TEntity>().RemoveRange(entities);
-
-            if (saveChanges)
-            {
-                resultCount = await _context.SaveChangesAsync(cancellationToken);
-            }
-
-            return resultCount;
-        }
-
-        public virtual async Task<int> UpdateRangeAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveChanges = false)
-            where TEntity : DomainEntity
-        {
-            int resultCount = 0;
-
-            foreach (var entity in entities)
-            {
-                entity.Update();
-                _context.Entry(entity).State = EntityState.Modified;
-            }
-
-            _context.ChangeTracker.DetectChanges();
-
             if (saveChanges)
             {
                 resultCount = await _context.SaveChangesAsync(cancellationToken);

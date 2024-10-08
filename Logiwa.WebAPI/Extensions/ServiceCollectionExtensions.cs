@@ -1,9 +1,12 @@
-﻿using Logiwa.Common.Configurations;
+﻿using Logiwa.Business.DTOs.Categories.Outputs;
+using Logiwa.Common.Configurations;
 using Logiwa.Common.Exceptions;
 using Logiwa.Common.Utils;
 using Logiwa.Infrastructure.Repositories;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Reflection;
 
 namespace Logiwa.WebAPI.Extensions
 {
@@ -49,6 +52,11 @@ namespace Logiwa.WebAPI.Extensions
 
             return exceptionManagerConfig;
         }
-
+        public static void AddMapster(this IServiceCollection services)
+        {
+            var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
+            Assembly applicationAssembly = typeof(CategoryOutputDTO).Assembly;
+            typeAdapterConfig.Scan(applicationAssembly);
+        }
     }
 }

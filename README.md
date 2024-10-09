@@ -7,10 +7,8 @@ This project contains the backend infrastructure for the Logiwa product. It is b
 Before getting started, ensure you have the following installed on your development machine:
 
 - .NET SDK (8.0 or higher)
-- Entity Framework Core Tools
-- SQL Server (or any other database you plan to use)
-- Visual Studio (or another IDE)
-- A configured connection string in the `appsettings.json` file
+- MSSQL Server
+- A configured connection string in the `appsettings.json`
 
 ## Project Structure
 
@@ -71,14 +69,9 @@ After running the `update` command, you can check your database to see if the sc
 
 The project uses a custom filter called `TransactionManagerFilter` to manage database transactions for each request. The filter ensures that database operations are wrapped in a transaction, and commits or rolls back depending on whether the action succeeds or fails.
 
-To register the filter:
+## NOTES
+- This project follows the Clean Architecture principle, and CQRS is implemented to decouple commands from queries.
+- Due to time constraints, only a unit test for one command has been added as an example.
+- The Mediator pattern has been implemented using MediatR to handle communication between various parts of the application.
 
-- The `TransactionManagerFilter` is registered in the `Startup.cs` under the `ConfigureServices` method.
 
-Example:
-
-```csharp
-services.AddControllers(options =>
-{
-    options.Filters.Add(typeof(TransactionManagerFilter<YourDbContext>));
-});
